@@ -3,12 +3,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package at.fhtw.swen3.services;
+package at.fhtw.swen3.controller.rest;
 
-import at.fhtw.swen3.persistence.Error;
-import at.fhtw.swen3.persistence.NewParcelInfo;
-import at.fhtw.swen3.persistence.Parcel;
-import at.fhtw.swen3.persistence.TrackingInformation;
+import at.fhtw.swen3.services.dto.Error;
+import at.fhtw.swen3.services.dto.NewParcelInfo;
+import at.fhtw.swen3.services.dto.Parcel;
+import at.fhtw.swen3.services.dto.TrackingInformation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
