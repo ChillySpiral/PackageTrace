@@ -8,4 +8,7 @@ import lombok.*;
 @Setter
 @ToString
 public class GeoCoordinateEntity {
+    private Double lat;
+
+    private Double lon;
 }

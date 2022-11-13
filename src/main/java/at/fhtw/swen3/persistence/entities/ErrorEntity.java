@@ -8,4 +8,5 @@ import lombok.*;
 @Setter
 @ToString
 public class ErrorEntity {
+    private String errorMessage;
 }

@@ -8,4 +8,7 @@ import lombok.*;
 @Setter
 @ToString
 public class TruckEntity {
+    private String regionGeoJson;
+
+    private String numberPlate;
 }

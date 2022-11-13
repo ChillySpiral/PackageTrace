@@ -8,4 +8,7 @@ import lombok.*;
 @Setter
 @ToString
 public class WarehouseNextHopsEntity {
+    private Integer traveltimeMins;
+
+    private HopEntity hop;
 }
