@@ -1,8 +1,11 @@
 package at.fhtw.swen3.persistence.entities;
 
-import at.fhtw.swen3.services.dto.Recipient;
 import at.fhtw.swen3.services.dto.StateEnum;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +17,9 @@ import java.util.List;
 public class ParcelEntity {
     private Float weight;
 
-    private Recipient recipient;
+    private RecipientEntity recipient;
 
-    private Recipient sender;
+    private RecipientEntity sender;
 
     private String trackingId;
 
