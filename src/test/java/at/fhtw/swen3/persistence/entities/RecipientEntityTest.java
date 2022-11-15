@@ -1,24 +1,24 @@
 package at.fhtw.swen3.persistence.entities;
 
+import at.fhtw.swen3.services.validation.InputValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.Set;
+import javax.validation.ConstraintViolationException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class RecipientEntityTest {
 
     private static final Logger log = LoggerFactory.getLogger(RecipientEntityTest.class);
+
+    @Autowired
+    InputValidator validator;
 
     @Test
     @DisplayName("RecipientEntity: Validation")
@@ -31,16 +31,7 @@ class RecipientEntityTest {
        recipient.setPostalCode("A-1200");
        recipient.setName("Max Mustermann");
 
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-
-        Set<ConstraintViolation<RecipientEntity>> violations = validator.validate(recipient);
-        for (ConstraintViolation<RecipientEntity> violation : violations)
-        {
-            log.error(violation.getMessage());
-        }
-
-        assertTrue(violations.isEmpty());
+        validator.validate(recipient);
     }
 
     @Test
@@ -54,16 +45,7 @@ class RecipientEntityTest {
         recipient.setPostalCode("A-1200");
         recipient.setName("Max Mustermann");
 
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-
-        Set<ConstraintViolation<RecipientEntity>> violations = validator.validate(recipient);
-        for (ConstraintViolation<RecipientEntity> violation : violations)
-        {
-            log.error(violation.getMessage());
-        }
-
-        assertTrue(violations.isEmpty());
+        validator.validate(recipient);
     }
 
     @Test
@@ -77,16 +59,9 @@ class RecipientEntityTest {
         recipient.setPostalCode("1200");
         recipient.setName("Max Mustermann");
 
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-
-        Set<ConstraintViolation<RecipientEntity>> violations = validator.validate(recipient);
-        for (ConstraintViolation<RecipientEntity> violation : violations)
-        {
-            log.error(violation.getMessage());
-        }
-
-        assertEquals(3, violations.size());
+        assertThrows(ConstraintViolationException.class, ()-> {
+            validator.validate(recipient);
+        });
     }
 
     @Test
@@ -100,15 +75,6 @@ class RecipientEntityTest {
         recipient.setPostalCode("1200");
         recipient.setName("Max Mustermann");
 
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-
-        Set<ConstraintViolation<RecipientEntity>> violations = validator.validate(recipient);
-        for (ConstraintViolation<RecipientEntity> violation : violations)
-        {
-            log.error(violation.getMessage());
-        }
-
-        assertTrue(violations.isEmpty());
+        validator.validate(recipient);
     }
 }
