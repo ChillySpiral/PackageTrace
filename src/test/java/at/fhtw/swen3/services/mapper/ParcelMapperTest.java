@@ -10,16 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ParcelMapperTest {
@@ -88,8 +83,8 @@ class ParcelMapperTest {
     @DisplayName("Parcel DTO: Entity to DTO")
     void entityToParcelDto() {
         final ParcelEntity parcelEntity = new ParcelEntity();
-        final RecipientEntity recipient = new RecipientEntity("Max","Johnstraße 15/3","1150","Vienna","Austria");
-        final RecipientEntity sender = new RecipientEntity("Alice","Sun Avenue","9467","Dallas","USA");
+        final RecipientEntity recipient = new RecipientEntity(1L,"Max","Johnstraße 15/3","1150","Vienna","Austria");
+        final RecipientEntity sender = new RecipientEntity(2L,"Alice","Sun Avenue","9467","Dallas","USA");
         parcelEntity.setRecipient(recipient);
         parcelEntity.setSender(sender);
         parcelEntity.setWeight(3.0f);
@@ -128,14 +123,14 @@ class ParcelMapperTest {
         final ParcelEntity parcelEntity = new ParcelEntity();
         final List<HopArrivalEntity> visitedHops = new ArrayList<HopArrivalEntity>(){
             {
-                add(new HopArrivalEntity("123","Desc Vis1", OffsetDateTime.MAX));
-                add(new HopArrivalEntity("456","Desc Vis2", OffsetDateTime.MAX));
+                add(new HopArrivalEntity(1L,"123","Desc Vis1", OffsetDateTime.MAX, new ParcelEntity()));
+                add(new HopArrivalEntity(2L,"456","Desc Vis2", OffsetDateTime.MAX, new ParcelEntity()));
             }
         };
         final List<HopArrivalEntity> futureHops = new ArrayList<HopArrivalEntity>(){
             {
-                add(new HopArrivalEntity("789","Desc Fut1", OffsetDateTime.MAX));
-                add(new HopArrivalEntity("666","Desc Fut2", OffsetDateTime.MAX));
+                add(new HopArrivalEntity(3L,"789","Desc Fut1", OffsetDateTime.MAX, new ParcelEntity()));
+                add(new HopArrivalEntity(4L,"666","Desc Fut2", OffsetDateTime.MAX, new ParcelEntity()));
             }
         };
         parcelEntity.setVisitedHops(visitedHops);
