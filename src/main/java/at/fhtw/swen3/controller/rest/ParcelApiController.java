@@ -1,7 +1,7 @@
-package at.fhtw.swen3.services.impl;
+package at.fhtw.swen3.controller.rest;
 
 
-import at.fhtw.swen3.controller.rest.ParcelApi;
+import at.fhtw.swen3.controller.ParcelApi;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.Parcel;
 import at.fhtw.swen3.services.dto.TrackingInformation;
