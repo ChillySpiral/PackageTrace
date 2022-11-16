@@ -2,27 +2,34 @@ package at.fhtw.swen3.persistence.entities;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Pattern;
 
-//@Entity
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
 public class RecipientEntity {
+    @Id
+    private Long id;
+
+    @Pattern(regexp = ".*")
     private String name;
-    //@Pattern(regexp = "^[A-Z][a-z]*([-\\s][a-zA-Z][a-z]*)*\\s\\w[-\\w\\/]*$")
+    @Pattern(regexp = ".*")
     private String street;
 
-    //@Pattern(regexp = "^A-\\d{4}$")
+    @Pattern(regexp = ".*")
     private String postalCode;
 
-    //@Pattern(regexp = "^[A-Z][a-z]*([-\\s][a-zA-Z][a-z]*)*$")
+    @Pattern(regexp = ".*")
     private String city;
 
     private String country;
+
 
     @AssertTrue(message = "Street Address does not match")
     private boolean isStreetOk(){
@@ -55,5 +62,24 @@ public class RecipientEntity {
             return false;
         }
         return true;
+    }
+
+    @AssertTrue(message = "Name does not match")
+    private boolean isNameOk(){
+        if(country.equals("Austria") || country.equals("Österreich")){
+            if(name.matches("^[A-ZÄÖÜ][a-zäöüß]*([-\\s][a-zA-ZÄÖÜäöü][a-zäöüß]*)*$")){
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,4 +1,4 @@
-package at.fhtw.swen3.services.impl;
+package at.fhtw.swen3.controller.rest;
 
 import at.fhtw.swen3.controller.rest.WarehouseApiController;
 import org.junit.jupiter.api.Test;

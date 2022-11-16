@@ -32,17 +32,17 @@ public class ParcelApiController implements ParcelApi {
 
     @Override
     public ResponseEntity<Void> reportParcelDelivery(String trackingId) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Void> reportParcelHop(String trackingId, String code) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<NewParcelInfo> submitParcel(Parcel parcel) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
