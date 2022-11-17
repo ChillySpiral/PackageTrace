@@ -41,7 +41,7 @@ public class WarehouseApiController implements WarehouseApi {
 
     @Override
     public ResponseEntity<Void> importWarehouses(Warehouse warehouse) {
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
