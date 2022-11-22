@@ -8,6 +8,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString

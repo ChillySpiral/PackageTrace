@@ -12,6 +12,7 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
