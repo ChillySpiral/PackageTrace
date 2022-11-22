@@ -19,3 +19,6 @@ You can view the api documentation in swagger-ui by pointing to
 http://localhost:8080/swagger-ui.html
 
 Change default port value in application.properties
+
+Create Docker Database through:
+docker run --name tracerDB -e POSTGRES_USER=swkom5 -e POSTGRES_PASSWORD=swkom5pw -p 5432:5432 -d postgis/postgis
