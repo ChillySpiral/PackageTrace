@@ -30,7 +30,7 @@ class ErrorMapperTest {
     @Test
     @DisplayName("Error Entity: Entity to DTO")
     void entityToDto(){
-        final ErrorEntity error = new ErrorEntity("This is a test");
+        final ErrorEntity error = new ErrorEntity(1L, "This is a test");
 
         Error result = ErrorMapper.INSTANCE.entityToDto(error);
 
