@@ -35,9 +35,9 @@ public class HopArrivalEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime dateTime;
 
-    //ToDo
     @NotNull
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "ParcelEntity_Id")
     private ParcelEntity parcel;
 
     public void setId(Long id) {

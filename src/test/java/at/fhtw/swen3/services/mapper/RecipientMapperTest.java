@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -33,7 +35,7 @@ class RecipientMapperTest {
     @Test
     @DisplayName("GeoCoordinate Entity: Entity to DTO")
     void entityToDto(){
-        final RecipientEntity recipient = new RecipientEntity(1L, "12", "34", "56", "78", "90");
+        final RecipientEntity recipient = new RecipientEntity(1L, "12", "34", "56", "78", "90", new ArrayList<>(), new ArrayList<>());
 
         Recipient result = RecipientMapper.INSTANCE.entityToDto(recipient);
 

@@ -26,11 +26,13 @@ public class ParcelEntity {
     private Float weight;
 
     @NotNull
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private RecipientEntity recipient;
 
     @NotNull
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private RecipientEntity sender;
 
     @Pattern(regexp = "^[A-Z0-9]{9}$")
@@ -40,11 +42,11 @@ public class ParcelEntity {
     private StateEnum state;
 
     @NotNull
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parcel", fetch = FetchType.EAGER)
     private List<HopArrivalEntity> visitedHops = new ArrayList<>();
 
     @NotNull
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parcel", fetch = FetchType.EAGER)
     private List<HopArrivalEntity> futureHops = new ArrayList<>();
 
     public void setId(Long id) {

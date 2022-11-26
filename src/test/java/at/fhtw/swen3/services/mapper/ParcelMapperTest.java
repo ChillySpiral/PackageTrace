@@ -85,8 +85,8 @@ class ParcelMapperTest {
     @DisplayName("Parcel DTO: Entity to DTO")
     void entityToParcelDto() {
         final ParcelEntity parcelEntity = new ParcelEntity();
-        final RecipientEntity recipient = new RecipientEntity(1L,"Max","Johnstraße 15/3","1150","Vienna","Austria");
-        final RecipientEntity sender = new RecipientEntity(2L,"Alice","Sun Avenue","9467","Dallas","USA");
+        final RecipientEntity recipient = new RecipientEntity(1L,"Max","Johnstraße 15/3","1150","Vienna","Austria", new ArrayList<>(), new ArrayList<>());
+        final RecipientEntity sender = new RecipientEntity(2L,"Alice","Sun Avenue","9467","Dallas","USA", new ArrayList<>(), new ArrayList<>());
         parcelEntity.setRecipient(recipient);
         parcelEntity.setSender(sender);
         parcelEntity.setWeight(3.0f);

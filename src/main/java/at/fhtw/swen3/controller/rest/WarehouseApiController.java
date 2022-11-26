@@ -2,8 +2,10 @@ package at.fhtw.swen3.controller.rest;
 
 
 import at.fhtw.swen3.controller.WarehouseApi;
+import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.dto.Hop;
 import at.fhtw.swen3.services.dto.Warehouse;
+import at.fhtw.swen3.services.validation.InputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +14,20 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import java.util.Optional;
 import javax.annotation.Generated;
+import javax.validation.Validator;
 
 @Generated(value = "at.fhtw.swen3.openapitools.codegen.languages.SpringCodegen", date = "2022-10-14T19:35:25.076618Z[Etc/UTC]")
 @Controller
 public class WarehouseApiController implements WarehouseApi {
 
-    private final NativeWebRequest request;
+
+    private NativeWebRequest request;
+
+    private final WarehouseService service;
 
     @Autowired
-    public WarehouseApiController(NativeWebRequest request) {
-        this.request = request;
+    public WarehouseApiController(WarehouseService service) {
+        this.service = service;
     }
 
     @Override
