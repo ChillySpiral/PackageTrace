@@ -3,6 +3,8 @@ package at.fhtw.swen3.persistence.entities;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Pattern;
@@ -10,11 +12,13 @@ import javax.validation.constraints.Pattern;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @ToString
 public class RecipientEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Pattern(regexp = ".*")
