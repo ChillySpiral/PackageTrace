@@ -1,11 +1,8 @@
 package at.fhtw.swen3.persistence.entities;
 
-import at.fhtw.swen3.services.dto.GeoCoordinate;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -13,11 +10,13 @@ import javax.validation.constraints.Pattern;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @ToString
 public class HopEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String hopType;
