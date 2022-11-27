@@ -31,7 +31,7 @@ class TransferwarehouseMapperTest {
     @Test
     @DisplayName("Transferwarehouse Entity: Entity to DTO")
     void entityToDto(){
-        final TransferwarehouseEntity transferwarehouse = new TransferwarehouseEntity(1L, "123","456","789");
+        final TransferwarehouseEntity transferwarehouse = new TransferwarehouseEntity("123","456","789");
 
         Transferwarehouse result = TransferwarehouseMapper.INSTANCE.entityToDto(transferwarehouse);
 

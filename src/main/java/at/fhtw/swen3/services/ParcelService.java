@@ -10,4 +10,12 @@ public interface ParcelService {
 
     public ParcelEntity trackParcel(String trackingId);
 
+    public boolean reportParcelDelivery(String trackingId);
+
+    public boolean reportParcelHop(String trackingId, String code);
+
+    public ParcelEntity transitionParcel(ParcelEntity parcel);
+
+
+
 }

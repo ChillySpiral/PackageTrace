@@ -10,4 +10,6 @@ public interface TransferwarehouseRepository extends JpaRepository<Transferwareh
 
     List<TransferwarehouseEntity> findAllByLogisticsPartner(String logisticsPartner);
 
+    TransferwarehouseEntity findByCode(String code);
+
 }

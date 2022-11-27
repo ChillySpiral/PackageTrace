@@ -37,12 +37,22 @@ public class ParcelApiController implements ParcelApi {
 
     @Override
     public ResponseEntity<Void> reportParcelDelivery(String trackingId) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        boolean success =  service.reportParcelDelivery(trackingId);
+
+        if(success){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override
     public ResponseEntity<Void> reportParcelHop(String trackingId, String code) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        boolean success =  service.reportParcelHop(trackingId, code);
+
+        if(success){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -69,7 +79,13 @@ public class ParcelApiController implements ParcelApi {
 
     @Override
     public ResponseEntity<NewParcelInfo> transitionParcel(String trackingId, Parcel parcel) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        ParcelEntity parcelEntity = ParcelMapper.INSTANCE.dtoToEntity(parcel, TrackingInformation.builder().state(StateEnum.PICKUP).futureHops(new ArrayList<>()).visitedHops(new ArrayList<>()).build(), new NewParcelInfo(trackingId));
+
+        ParcelEntity result =  service.transitionParcel(parcelEntity);
+
+        NewParcelInfo newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result);
+
+        return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
     }
 
 }

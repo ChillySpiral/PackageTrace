@@ -1,10 +1,7 @@
 package at.fhtw.swen3.controller.rest;
 
 import at.fhtw.swen3.controller.rest.ParcelApiController;
-import at.fhtw.swen3.services.dto.NewParcelInfo;
-import at.fhtw.swen3.services.dto.Parcel;
-import at.fhtw.swen3.services.dto.Recipient;
-import at.fhtw.swen3.services.dto.TrackingInformation;
+import at.fhtw.swen3.services.dto.*;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -28,11 +25,30 @@ class ParcelApiControllerTest {
     ParcelApiController controller;
 
     @Test
+    @Order(3)
     void reportParcelDelivery() {
+        //Arrange
+        String trackingId = "437898104";
+
+        //Act
+        ResponseEntity<Void> result = controller.reportParcelDelivery(trackingId);
+
+        //Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
+    @Order(4)
     void reportParcelHop() {
+        //Arrange
+        String trackingId = "437898104";
+        String code = "MOON991";
+
+        //Act
+        ResponseEntity<Void> result = controller.reportParcelHop(trackingId, code);
+
+        //Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Order(1)
@@ -68,5 +84,17 @@ class ParcelApiControllerTest {
 
     @Test
     void transitionParcel() {
+        //Arrange
+        Recipient recipient = Recipient.builder().name("Klara Hanger").country("Polen").postalCode("P-3340").city("Warschau").street("Landstrasse 30").build();
+        Recipient sender = Recipient.builder().name("Leni Jaeger").country("Frankreich").postalCode("F-4231").city("Lyon").street("Rue de Place 15").build();
+        Parcel parcel = Parcel.builder().recipient(recipient).sender(recipient).sender(sender).weight(5.4f).build();
+
+        //Act
+        ResponseEntity<NewParcelInfo> result = controller.transitionParcel( "437898104", parcel);
+
+        //Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertTrue(result.hasBody());
+        assertEquals("437898104", result.getBody().getTrackingId());
     }
 }

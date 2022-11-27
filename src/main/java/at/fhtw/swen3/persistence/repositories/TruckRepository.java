@@ -9,4 +9,6 @@ public interface TruckRepository extends JpaRepository<TruckEntity, Long> {
 
     TruckEntity findByNumberPlate(String numberPlate);
 
+    TruckEntity findByCode(String code);
+
 }

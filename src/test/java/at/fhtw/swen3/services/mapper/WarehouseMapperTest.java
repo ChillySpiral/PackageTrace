@@ -68,7 +68,7 @@ class WarehouseMapperTest {
             }
         };
 
-        final WarehouseEntity warehouse = new WarehouseEntity(7L, 3, wareHouseNextHop);
+        final WarehouseEntity warehouse = new WarehouseEntity(3, wareHouseNextHop);
 
         Warehouse result = WarehouseMapper.INSTANCE.entityToDto(warehouse);
 

@@ -30,7 +30,7 @@ class TruckMapperTest {
     @Test
     @DisplayName("Truck Entity: Entity to DTO")
     void entityToDto(){
-        final TruckEntity truck = new TruckEntity(1L, "123", "456");
+        final TruckEntity truck = new TruckEntity( "123", "456");
 
         Truck result = TruckMapper.INSTANCE.entityToDto(truck);
 
