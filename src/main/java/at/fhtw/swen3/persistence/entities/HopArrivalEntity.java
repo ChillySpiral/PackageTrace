@@ -1,6 +1,7 @@
 package at.fhtw.swen3.persistence.entities;
 
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -35,9 +36,9 @@ public class HopArrivalEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime dateTime;
 
-    //ToDo
     @NotNull
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ParcelEntity_Id")
     private ParcelEntity parcel;
 
     public void setId(Long id) {

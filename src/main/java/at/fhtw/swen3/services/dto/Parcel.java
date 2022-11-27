@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 
@@ -19,6 +20,7 @@ import javax.annotation.Generated;
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonTypeName("parcel")
 @Generated(value = "at.fhtw.swen3.openapitools.codegen.languages.SpringCodegen", date = "2022-10-14T19:35:25.076618Z[Etc/UTC]")
 public class Parcel {
