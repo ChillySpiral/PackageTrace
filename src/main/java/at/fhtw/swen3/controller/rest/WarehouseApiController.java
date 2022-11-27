@@ -50,7 +50,6 @@ public class WarehouseApiController implements WarehouseApi {
 
     @Override
     public ResponseEntity<Hop> getWarehouse(String code) {
-        //Todo is not entity anymore
         HopEntity hopEntity = service.getWarehouse(code);
 
         if(hopEntity != null) {

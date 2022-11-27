@@ -6,6 +6,7 @@ import at.fhtw.swen3.services.mapper.base.BaseMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+//ToDo: Mapper for Inheritance
 @Mapper
 public interface HopMapper extends BaseMapper<HopEntity, Hop> {
     HopMapper INSTANCE = Mappers.getMapper(HopMapper.class);
