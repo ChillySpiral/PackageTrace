@@ -18,7 +18,7 @@ public class WarehouseNextHopsEntity {
 
     private Integer traveltimeMins;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private HopEntity hop;
 
     public void setId(Long id) {

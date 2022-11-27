@@ -57,7 +57,7 @@ class ParcelApiControllerTest {
         //Arrange
         Recipient recipient = Recipient.builder().name("Anna Kleber").country("Germany").postalCode("D-3140").city("Hamburg").street("Landstrasse 3").build();
         Recipient sender = Recipient.builder().name("Franz Kleber").country("Norwegen").postalCode("N-6555").city("Oslo").street("Hundegasse 4").build();
-        Parcel parcel = Parcel.builder().recipient(recipient).sender(recipient).sender(sender).weight(2.4f).build();
+        Parcel parcel = Parcel.builder().recipient(recipient).sender(sender).weight(2.4f).build();
 
         //Act
         ResponseEntity<NewParcelInfo> result = controller.submitParcel(parcel);
