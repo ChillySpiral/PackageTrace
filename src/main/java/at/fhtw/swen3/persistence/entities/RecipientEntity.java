@@ -1,20 +1,26 @@
 package at.fhtw.swen3.persistence.entities;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @ToString
 public class RecipientEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Pattern(regexp = ".*")
@@ -30,6 +36,13 @@ public class RecipientEntity {
 
     private String country;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<ParcelEntity> senderParcels = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipient")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<ParcelEntity> recipientParcel = new ArrayList<>();
 
     @AssertTrue(message = "Street Address does not match")
     private boolean isStreetOk(){

@@ -1,34 +1,29 @@
 package at.fhtw.swen3.persistence.entities;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 @ToString
-public class WarehouseEntity {
-    @Id
-    private Long id;
+public class WarehouseEntity extends HopEntity {
 
     private Integer level;
 
     @OneToMany
     @NotNull
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<WarehouseNextHopsEntity> nextHops = new ArrayList<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

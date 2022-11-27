@@ -1,11 +1,10 @@
 package at.fhtw.swen3.persistence.entities;
 
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -14,11 +13,13 @@ import java.time.OffsetDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @ToString
 public class HopArrivalEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -35,8 +36,9 @@ public class HopArrivalEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime dateTime;
 
-    //ToDo: From where?
-    @OneToOne
+    @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ParcelEntity_Id")
     private ParcelEntity parcel;
 
     public void setId(Long id) {

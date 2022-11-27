@@ -1,22 +1,24 @@
 package at.fhtw.swen3.persistence.entities;
 
-import at.fhtw.swen3.services.dto.GeoCoordinate;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 @ToString
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class HopEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String hopType;
@@ -36,7 +38,7 @@ public class HopEntity {
     private String locationName;
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private GeoCoordinateEntity locationCoordinates;
     public void setId(Long id) {
         this.id = id;

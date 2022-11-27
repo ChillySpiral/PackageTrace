@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@TestPropertySource("/application-test.properties")
 class ParcelMapperTest {
     private static final Logger log = LoggerFactory.getLogger(ParcelMapperTest.class);
 
@@ -83,8 +85,8 @@ class ParcelMapperTest {
     @DisplayName("Parcel DTO: Entity to DTO")
     void entityToParcelDto() {
         final ParcelEntity parcelEntity = new ParcelEntity();
-        final RecipientEntity recipient = new RecipientEntity(1L,"Max","Johnstraße 15/3","1150","Vienna","Austria");
-        final RecipientEntity sender = new RecipientEntity(2L,"Alice","Sun Avenue","9467","Dallas","USA");
+        final RecipientEntity recipient = new RecipientEntity(1L,"Max","Johnstraße 15/3","1150","Vienna","Austria", new ArrayList<>(), new ArrayList<>());
+        final RecipientEntity sender = new RecipientEntity(2L,"Alice","Sun Avenue","9467","Dallas","USA", new ArrayList<>(), new ArrayList<>());
         parcelEntity.setRecipient(recipient);
         parcelEntity.setSender(sender);
         parcelEntity.setWeight(3.0f);

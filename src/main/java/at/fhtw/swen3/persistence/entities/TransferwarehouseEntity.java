@@ -1,18 +1,18 @@
 package at.fhtw.swen3.persistence.entities;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 @ToString
-public class TransferwarehouseEntity {
-    @Id
-    private Long id;
+public class TransferwarehouseEntity extends HopEntity {
 
     private String regionGeoJson;
 
@@ -20,12 +20,4 @@ public class TransferwarehouseEntity {
 
     private String logisticsPartnerUrl;
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }
