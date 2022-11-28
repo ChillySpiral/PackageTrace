@@ -65,14 +65,14 @@ class ParcelApiControllerTest {
         //Assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
         assertTrue(result.hasBody());
-        assertEquals("437898104", result.getBody().getTrackingId());
+        assertEquals("PYJRB4HZ6", result.getBody().getTrackingId());
     }
 
     @Order(2)
     @Test
     void trackParcel() {
         //Arrange
-        String trackingId = "437898104";
+        String trackingId = "PYJRB4HZ6";
 
         //Act
         ResponseEntity<TrackingInformation> result = controller.trackParcel(trackingId);
