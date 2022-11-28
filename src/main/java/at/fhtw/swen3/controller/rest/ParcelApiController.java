@@ -39,20 +39,30 @@ public class ParcelApiController implements ParcelApi {
     public ResponseEntity<Void> reportParcelDelivery(String trackingId) {
         boolean success =  service.reportParcelDelivery(trackingId);
 
+
+
         if(success){
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+        /* ToDo: Activate with Sprint 4
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         */
     }
 
     @Override
     public ResponseEntity<Void> reportParcelHop(String trackingId, String code) {
         boolean success =  service.reportParcelHop(trackingId, code);
 
+
         if(success){
             return new ResponseEntity<>(HttpStatus.OK);
         }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+        /* ToDo: Activate with Sprint 4
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         */
     }
 
     @Override
@@ -61,20 +71,28 @@ public class ParcelApiController implements ParcelApi {
 
         ParcelEntity result =  service.submitParcel(parcelEntity);
 
-        NewParcelInfo newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result);
+        if(null != result){
+            NewParcelInfo newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result);
+            return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.CREATED);
+        }
 
-        return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.CREATED);
+        //ToDo: Change with Sprint 4
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<TrackingInformation> trackParcel(String trackingId) {
         ParcelEntity result =  service.trackParcel(trackingId);
 
+
         if(null != result){
             TrackingInformation trackingInformation = ParcelMapper.INSTANCE.entityToTrackingInformationDto(result);
             return new ResponseEntity<TrackingInformation>(trackingInformation, HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+        /* ToDo: Activate with Sprint 4
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         */
     }
 
     @Override
@@ -83,9 +101,12 @@ public class ParcelApiController implements ParcelApi {
 
         ParcelEntity result =  service.transitionParcel(parcelEntity);
 
-        NewParcelInfo newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result);
-
-        return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
+        if(null != result){
+            NewParcelInfo newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result);
+            return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
+        }
+        //ToDo: Change with Sprint 4
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

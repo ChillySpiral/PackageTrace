@@ -27,7 +27,7 @@ public class ParcelServiceImpl implements ParcelService {
     public ParcelEntity submitParcel(ParcelEntity parcel) {
         validator.validate(parcel);
 
-        parcel.setTrackingId("437898104");
+        parcel.setTrackingId("PYJRB4HZ6");
 
         parcelRepository.save(parcel);
 

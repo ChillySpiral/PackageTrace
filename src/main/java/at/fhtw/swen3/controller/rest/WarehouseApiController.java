@@ -56,7 +56,11 @@ public class WarehouseApiController implements WarehouseApi {
             Hop hop = HopMapper.INSTANCE.entityToDto(hopEntity);
             return new ResponseEntity<>(hop, HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+        /* ToDo: Activate with Sprint 4
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+         */
 
     }
 
@@ -69,7 +73,11 @@ public class WarehouseApiController implements WarehouseApi {
         if(success){
             return new ResponseEntity<>(HttpStatus.OK);
         }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+        /* ToDo: Activate with Sprint 4
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         */
 
     }
 
