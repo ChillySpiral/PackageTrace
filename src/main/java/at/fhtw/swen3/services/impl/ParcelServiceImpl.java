@@ -8,17 +8,17 @@ import at.fhtw.swen3.services.validation.InputValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
-@Slf4j 
+@Slf4j
 public class ParcelServiceImpl implements ParcelService {
 
     private final InputValidator validator;
     private final ParcelRepository parcelRepository;
 
     @Override
-    public ParcelEntity submitParcel(ParcelEntity parcel) {
-        log.info("called submitParcel with parcel " + parcel.toString());
-
+    public Optional<ParcelEntity> submitParcel(ParcelEntity parcel) {
         validator.validate(parcel);
         log.info("validated parcel " + parcel.toString());
 
@@ -27,17 +27,16 @@ public class ParcelServiceImpl implements ParcelService {
 
         parcelRepository.save(parcel);
 
-        return parcel;
+        return Optional.of(parcel);
     }
 
     @Override
-    public ParcelEntity trackParcel(String trackingId) {
+    public Optional<ParcelEntity> trackParcel(String trackingId) {
         log.info("called trackParcel with trackingId " + trackingId);
-
         ParcelEntity result = parcelRepository.findByTrackingId(trackingId);
         log.info("returning result as ParcelEntity");
 
-        return result;
+        return Optional.ofNullable(result);
     }
 
     @Override
@@ -78,12 +77,13 @@ public class ParcelServiceImpl implements ParcelService {
     public ParcelEntity transitionParcel(ParcelEntity parcel) {
         log.info("called transitionParcel with parcel " + parcel.toString());
 
+    public Optional<ParcelEntity> transitionParcel(ParcelEntity parcel) {
         validator.validate(parcel);
         log.info("validated parcel " + parcel.toString());
 
         parcelRepository.save(parcel);
 
         log.info("returning parcel");
-        return parcel;
+        return Optional.of(parcel);
     }
 }
