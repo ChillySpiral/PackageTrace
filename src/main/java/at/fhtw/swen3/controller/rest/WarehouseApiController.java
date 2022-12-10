@@ -33,42 +33,57 @@ public class WarehouseApiController implements WarehouseApi {
 
     @Override
     public ResponseEntity<Warehouse> exportWarehouses() {
-        WarehouseEntity warehouseEntity = service.exportWarehouses();
-        Warehouse warehouse = WarehouseMapper.INSTANCE.entityToDto(warehouseEntity);
-        return new ResponseEntity<>(warehouse, HttpStatus.OK);
+        try {
+            var warehouseEntity = service.exportWarehouses();
+
+            if (warehouseEntity.isPresent()) {
+                var warehouse = (Warehouse) HopMapper.INSTANCE.entityToDto(warehouseEntity.get());
+                return new ResponseEntity<>(warehouse, HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp) {
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
     public ResponseEntity<Hop> getWarehouse(String code) {
-        var hopEntity = service.getWarehouse(code);
+        try{
+            var hopEntity = service.getWarehouse(code);
 
-        if(hopEntity != null) {
-            var hop = HopMapper.INSTANCE.entityToDto(hopEntity);
-            return new ResponseEntity<>(hop, HttpStatus.OK);
+            if(hopEntity.isPresent()){
+                var hop = HopMapper.INSTANCE.entityToDto(hopEntity.get());
+                return new ResponseEntity<>(hop, HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp){
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
 
     @Override
     public ResponseEntity<Void> importWarehouses(Warehouse warehouse) {
-        try{
+        try {
             var warehouseEntity = HopMapper.INSTANCE.dtoToEntity(warehouse);
 
-            boolean success = service.importWarehouses(warehouseEntity);
+            var success = service.importWarehouses(warehouseEntity);
 
-            if(success){
+            if (success) {
                 return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
             }
-
-        }catch(Exception e){
-            System.out.println("Error: " + e.toString());
+        } catch (Exception e) {
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-        /* ToDo: Activate with Sprint 4
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         */
     }
 
 }

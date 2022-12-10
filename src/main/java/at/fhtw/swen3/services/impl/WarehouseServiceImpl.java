@@ -12,6 +12,8 @@ import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.validation.InputValidator;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
 
@@ -37,26 +39,26 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseEntity exportWarehouses() {
+    public Optional<WarehouseEntity> exportWarehouses() {
 
-        return new WarehouseEntity();
+        return Optional.of(new WarehouseEntity());
     }
 
     @Override
-    public HopEntity getWarehouse(String code) {
+    public Optional<HopEntity> getWarehouse(String code) {
         WarehouseEntity wareEntity = warehouseRepository.findByCode(code);
         if(null != wareEntity) {
-            return wareEntity;
+            return Optional.of(wareEntity);
         }
 
         TruckEntity truckEntity = truckRepository.findByCode(code);
         if(null != truckEntity) {
-            return truckEntity;
+            return Optional.of(truckEntity);
         }
 
         TransferwarehouseEntity transferwarehouseEntity = tansferwarehouseRepository.findByCode(code);
         if(null != transferwarehouseEntity) {
-            return transferwarehouseEntity;
+            return Optional.of(transferwarehouseEntity);
         }
 
         return null;
