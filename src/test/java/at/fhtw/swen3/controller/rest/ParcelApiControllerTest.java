@@ -1,7 +1,9 @@
 package at.fhtw.swen3.controller.rest;
 
-import at.fhtw.swen3.controller.rest.ParcelApiController;
-import at.fhtw.swen3.services.dto.*;
+import at.fhtw.swen3.services.dto.NewParcelInfo;
+import at.fhtw.swen3.services.dto.Parcel;
+import at.fhtw.swen3.services.dto.Recipient;
+import at.fhtw.swen3.services.dto.TrackingInformation;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
