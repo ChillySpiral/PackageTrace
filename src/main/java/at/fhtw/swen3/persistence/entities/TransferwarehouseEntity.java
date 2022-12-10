@@ -14,6 +14,7 @@ import javax.persistence.*;
 @ToString
 public class TransferwarehouseEntity extends HopEntity {
 
+    @Column(length = 1000000)
     private String regionGeoJson;
 
     private String logisticsPartner;

@@ -25,7 +25,7 @@ public class InputValidator {
         javax.validation.Validator validator = getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(o);
         for (ConstraintViolation<T> violation : violations){
-            log.error(violation.getMessage());
+            log.error(violation.getInvalidValue()+" "+ violation.getMessage());
         }
         if(!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
