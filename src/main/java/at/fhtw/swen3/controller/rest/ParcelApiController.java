@@ -8,6 +8,7 @@ import at.fhtw.swen3.services.dto.*;
 import at.fhtw.swen3.services.impl.ParcelServiceImpl;
 import at.fhtw.swen3.services.mapper.ParcelMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -133,7 +134,7 @@ public class ParcelApiController implements ParcelApi {
                 throw new Exception("Unknown Error");
             }
         } catch (Exception exp) {
-            og.info("transitionParcel with trackingId " + trackingId + " and parcel " + parcel.toString() + " was successfully executed, HttpStatus.OK");
+            log.info("transitionParcel with trackingId " + trackingId + " and parcel " + parcel.toString() + " was successfully executed, HttpStatus.OK");
             //ToDo Sprint 5: Return Error
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

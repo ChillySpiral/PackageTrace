@@ -74,16 +74,15 @@ public class ParcelServiceImpl implements ParcelService {
         }
     }
 
-    public ParcelEntity transitionParcel(ParcelEntity parcel) {
+    public Optional<ParcelEntity> transitionParcel(ParcelEntity parcel) {
         log.info("called transitionParcel with parcel " + parcel.toString());
 
-    public Optional<ParcelEntity> transitionParcel(ParcelEntity parcel) {
         validator.validate(parcel);
         log.info("validated parcel " + parcel.toString());
 
         parcelRepository.save(parcel);
-
         log.info("returning parcel");
+
         return Optional.of(parcel);
     }
 }

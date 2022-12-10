@@ -11,10 +11,12 @@ import at.fhtw.swen3.persistence.repositories.WarehouseRepository;
 import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.validation.InputValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 public class WarehouseServiceImpl implements WarehouseService {
 
     private final InputValidator validator;
@@ -27,7 +29,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public boolean importWarehouses(HopEntity hopEntity) {
-        log.info("called importWarehouses with warehouse " + warehouse.toString());
+        log.info("called importWarehouses with warehouse " + hopEntity.toString());
         if(hopEntity instanceof WarehouseEntity warehouse) {
             validator.validate(warehouse);
         } else if (hopEntity instanceof TruckEntity truck) {
