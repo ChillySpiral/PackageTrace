@@ -21,7 +21,7 @@ public class WarehouseEntity extends HopEntity {
 
     private Integer level;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @NotNull
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<WarehouseNextHopsEntity> nextHops = new ArrayList<>();

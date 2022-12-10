@@ -30,7 +30,7 @@ public class HopEntity {
 
     @NotNull
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z\\s\\d-]+$")
+    @Pattern(regexp = "^[a-zA-ZäüöÄßÜÖ\\s\\d-]+$")
     private String description;
 
     private Integer processingDelayMins;

@@ -1,9 +1,6 @@
 package at.fhtw.swen3.configuration;
 
-import at.fhtw.swen3.persistence.repositories.ParcelRepository;
-import at.fhtw.swen3.persistence.repositories.TransferwarehouseRepository;
-import at.fhtw.swen3.persistence.repositories.TruckRepository;
-import at.fhtw.swen3.persistence.repositories.WarehouseRepository;
+import at.fhtw.swen3.persistence.repositories.*;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.impl.ParcelServiceImpl;
@@ -20,7 +17,7 @@ public class AppConfig {
     }
 
     @Bean
-    public WarehouseService warehouseService(InputValidator validator, WarehouseRepository warehouseRepository, TruckRepository truckRepository, TransferwarehouseRepository tansferwarehouseRepository) {
-        return new WarehouseServiceImpl(validator, warehouseRepository, truckRepository, tansferwarehouseRepository);
+    public WarehouseService warehouseService(InputValidator validator, WarehouseRepository warehouseRepository, TruckRepository truckRepository, TransferwarehouseRepository tansferwarehouseRepository, HopRepository hopRepository) {
+        return new WarehouseServiceImpl(validator, warehouseRepository, truckRepository, tansferwarehouseRepository, hopRepository);
     }
 }

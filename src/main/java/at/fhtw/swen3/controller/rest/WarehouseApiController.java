@@ -40,35 +40,35 @@ public class WarehouseApiController implements WarehouseApi {
 
     @Override
     public ResponseEntity<Hop> getWarehouse(String code) {
-        HopEntity hopEntity = service.getWarehouse(code);
+        var hopEntity = service.getWarehouse(code);
 
         if(hopEntity != null) {
-            Hop hop = HopMapper.INSTANCE.entityToDto(hopEntity);
+            var hop = HopMapper.INSTANCE.entityToDto(hopEntity);
             return new ResponseEntity<>(hop, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
-        /* ToDo: Activate with Sprint 4
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-         */
 
     }
 
     @Override
     public ResponseEntity<Void> importWarehouses(Warehouse warehouse) {
-        WarehouseEntity warehouseEntity = WarehouseMapper.INSTANCE.dtoToEntity(warehouse);
+        try{
+            var warehouseEntity = HopMapper.INSTANCE.dtoToEntity(warehouse);
 
-        boolean success = service.importWarehouses(warehouseEntity);
+            boolean success = service.importWarehouses(warehouseEntity);
 
-        if(success){
-            return new ResponseEntity<>(HttpStatus.OK);
+            if(success){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+
+        }catch(Exception e){
+            System.out.println("Error: " + e.toString());
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
         /* ToDo: Activate with Sprint 4
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
          */
-
     }
 
 }

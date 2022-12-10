@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 public interface WarehouseService {
-    public boolean importWarehouses(WarehouseEntity warehouse);
+    public boolean importWarehouses(HopEntity hopEntity);
 
     public WarehouseEntity exportWarehouses();
 

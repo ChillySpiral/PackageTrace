@@ -4,6 +4,7 @@ import at.fhtw.swen3.persistence.entities.HopEntity;
 import at.fhtw.swen3.persistence.entities.TransferwarehouseEntity;
 import at.fhtw.swen3.persistence.entities.TruckEntity;
 import at.fhtw.swen3.persistence.entities.WarehouseEntity;
+import at.fhtw.swen3.persistence.repositories.HopRepository;
 import at.fhtw.swen3.persistence.repositories.TransferwarehouseRepository;
 import at.fhtw.swen3.persistence.repositories.TruckRepository;
 import at.fhtw.swen3.persistence.repositories.WarehouseRepository;
@@ -19,10 +20,19 @@ public class WarehouseServiceImpl implements WarehouseService {
     private final TruckRepository truckRepository;
     private final TransferwarehouseRepository tansferwarehouseRepository;
 
+    private final HopRepository hopRepository;
+
 
     @Override
-    public boolean importWarehouses(WarehouseEntity warehouse) {
-        warehouseRepository.save(warehouse);
+    public boolean importWarehouses(HopEntity hopEntity) {
+        if(hopEntity instanceof WarehouseEntity warehouse) {
+            validator.validate(warehouse);
+        } else if (hopEntity instanceof TruckEntity truck) {
+            validator.validate(truck);
+        } else if(hopEntity instanceof TransferwarehouseEntity transferwarehouse){
+            validator.validate(transferwarehouse);
+        }
+        hopRepository.save(hopEntity);
         return true;
     }
 
