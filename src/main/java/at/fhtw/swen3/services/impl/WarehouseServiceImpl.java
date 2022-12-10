@@ -8,21 +8,17 @@ import at.fhtw.swen3.persistence.repositories.TransferwarehouseRepository;
 import at.fhtw.swen3.persistence.repositories.TruckRepository;
 import at.fhtw.swen3.persistence.repositories.WarehouseRepository;
 import at.fhtw.swen3.services.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import at.fhtw.swen3.services.validation.InputValidator;
+import lombok.RequiredArgsConstructor;
 
-@Service
+@RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
 
+    private final InputValidator validator;
     private final WarehouseRepository warehouseRepository;
     private final TruckRepository truckRepository;
     private final TransferwarehouseRepository tansferwarehouseRepository;
-    @Autowired
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, TruckRepository truckRepository, TransferwarehouseRepository tansferwarehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
-        this.truckRepository = truckRepository;
-        this.tansferwarehouseRepository = tansferwarehouseRepository;
-    }
+
 
     @Override
     public boolean importWarehouses(WarehouseEntity warehouse) {

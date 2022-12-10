@@ -7,6 +7,7 @@ import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.dto.*;
 import at.fhtw.swen3.services.impl.ParcelServiceImpl;
 import at.fhtw.swen3.services.mapper.ParcelMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +20,12 @@ import java.util.Optional;
 
 @Generated(value = "at.fhtw.swen3.openapitools.codegen.languages.SpringCodegen", date = "2022-10-14T19:35:25.076618Z[Etc/UTC]")
 @Controller
+@RequiredArgsConstructor
 public class ParcelApiController implements ParcelApi {
 
     private NativeWebRequest request;
 
     private final ParcelService service;
-
-    @Autowired
-    public ParcelApiController(ParcelService service) {
-        this.service = service;
-    }
 
     @Override
     public Optional<NativeWebRequest> getRequest() {

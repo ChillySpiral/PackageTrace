@@ -3,25 +3,15 @@ package at.fhtw.swen3.services.impl;
 import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.services.ParcelService;
-import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.dto.StateEnum;
 import at.fhtw.swen3.services.validation.InputValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
-import javax.xml.validation.Validator;
-
-@Service
+@RequiredArgsConstructor
 public class ParcelServiceImpl implements ParcelService {
 
     private final InputValidator validator;
     private final ParcelRepository parcelRepository;
-
-    @Autowired
-    public ParcelServiceImpl(InputValidator validator, ParcelRepository parcelRepository) {
-        this.validator = validator;
-        this.parcelRepository = parcelRepository;
-    }
 
     @Override
     public ParcelEntity submitParcel(ParcelEntity parcel) {
