@@ -34,76 +34,107 @@ public class ParcelApiController implements ParcelApi {
 
     @Override
     public ResponseEntity<Void> reportParcelDelivery(String trackingId) {
-        boolean success =  service.reportParcelDelivery(trackingId);
+        try {
+            var success = service.reportParcelDelivery(trackingId);
 
-
-
-        if(success){
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (success) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp) {
+            //ToDo: Sprint 5 Return Error Information
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
-        /* ToDo: Activate with Sprint 4
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         */
     }
 
     @Override
     public ResponseEntity<Void> reportParcelHop(String trackingId, String code) {
-        boolean success =  service.reportParcelHop(trackingId, code);
+        try {
+            var success = service.reportParcelHop(trackingId, code);
 
+            if (success) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
 
-        if(success){
-            return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } catch (Exception exp) {
+            //ToDo: Sprint 5 Return Error Information
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-        /* ToDo: Activate with Sprint 4
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         */
     }
 
     @Override
     public ResponseEntity<NewParcelInfo> submitParcel(Parcel parcel) {
-        ParcelEntity parcelEntity = ParcelMapper.INSTANCE.dtoToEntity(parcel, TrackingInformation.builder().state(StateEnum.PICKUP).futureHops(new ArrayList<>()).visitedHops(new ArrayList<>()).build(), new NewParcelInfo());
+        try {
+            var parcelEntity = mapRegisterNewParcel(parcel);
+            var result = service.submitParcel(parcelEntity);
 
-        ParcelEntity result =  service.submitParcel(parcelEntity);
-
-        if(null != result){
-            NewParcelInfo newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result);
-            return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.CREATED);
+            if (result.isPresent()) {
+                var newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result.get());
+                return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.CREATED);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp) {
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        //ToDo: Change with Sprint 4
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<TrackingInformation> trackParcel(String trackingId) {
-        ParcelEntity result =  service.trackParcel(trackingId);
+        try {
+            var result = service.trackParcel(trackingId);
 
-
-        if(null != result){
-            TrackingInformation trackingInformation = ParcelMapper.INSTANCE.entityToTrackingInformationDto(result);
-            return new ResponseEntity<TrackingInformation>(trackingInformation, HttpStatus.OK);
+            if (result.isPresent()) {
+                TrackingInformation trackingInformation = ParcelMapper.INSTANCE.entityToTrackingInformationDto(result.get());
+                return new ResponseEntity<TrackingInformation>(trackingInformation, HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp) {
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
-        /* ToDo: Activate with Sprint 4
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         */
     }
 
     @Override
     public ResponseEntity<NewParcelInfo> transitionParcel(String trackingId, Parcel parcel) {
-        ParcelEntity parcelEntity = ParcelMapper.INSTANCE.dtoToEntity(parcel, TrackingInformation.builder().state(StateEnum.PICKUP).futureHops(new ArrayList<>()).visitedHops(new ArrayList<>()).build(), new NewParcelInfo(trackingId));
+        try {
+            var parcelEntity = mapRegisterNewParcel(parcel, trackingId);
+            var result = service.transitionParcel(parcelEntity);
 
-        ParcelEntity result =  service.transitionParcel(parcelEntity);
-
-        if(null != result){
-            NewParcelInfo newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result);
-            return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
+            if (result.isPresent()) {
+                var newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result.get());
+                return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp) {
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        //ToDo: Change with Sprint 4
-        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private ParcelEntity mapRegisterNewParcel(Parcel parcel) {
+        var parcelInfo = new NewParcelInfo();
+        var trackingInfo = TrackingInformation.builder().state(StateEnum.UNKNOWN).futureHops(new ArrayList<>()).visitedHops(new ArrayList<>()).build();
+        ParcelEntity parcelEntity = ParcelMapper.INSTANCE.dtoToEntity(parcel, trackingInfo, parcelInfo);
+        return parcelEntity;
+    }
+
+    private ParcelEntity mapRegisterNewParcel(Parcel parcel, String trackingId) {
+        var parcelInfo = NewParcelInfo.builder().trackingId(trackingId).build();
+        var trackingInfo = TrackingInformation.builder().state(StateEnum.UNKNOWN).futureHops(new ArrayList<>()).visitedHops(new ArrayList<>()).build();
+        ParcelEntity parcelEntity = ParcelMapper.INSTANCE.dtoToEntity(parcel, trackingInfo, parcelInfo);
+        return parcelEntity;
     }
 
 }

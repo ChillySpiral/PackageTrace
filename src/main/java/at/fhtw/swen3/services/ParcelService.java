@@ -4,17 +4,19 @@ import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 public interface ParcelService {
 
-    public ParcelEntity submitParcel(ParcelEntity parcel);
+    Optional<ParcelEntity> submitParcel(ParcelEntity parcel);
 
-    public ParcelEntity trackParcel(String trackingId);
+    Optional<ParcelEntity> trackParcel(String trackingId);
 
-    public boolean reportParcelDelivery(String trackingId);
+    boolean reportParcelDelivery(String trackingId);
 
-    public boolean reportParcelHop(String trackingId, String code);
+    boolean reportParcelHop(String trackingId, String code);
 
-    public ParcelEntity transitionParcel(ParcelEntity parcel);
+    Optional<ParcelEntity> transitionParcel(ParcelEntity parcel);
 
 
 

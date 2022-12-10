@@ -7,6 +7,8 @@ import at.fhtw.swen3.services.dto.StateEnum;
 import at.fhtw.swen3.services.validation.InputValidator;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class ParcelServiceImpl implements ParcelService {
 
@@ -14,21 +16,21 @@ public class ParcelServiceImpl implements ParcelService {
     private final ParcelRepository parcelRepository;
 
     @Override
-    public ParcelEntity submitParcel(ParcelEntity parcel) {
+    public Optional<ParcelEntity> submitParcel(ParcelEntity parcel) {
         validator.validate(parcel);
 
         parcel.setTrackingId("PYJRB4HZ6");
 
         parcelRepository.save(parcel);
 
-        return parcel;
+        return Optional.of(parcel);
     }
 
     @Override
-    public ParcelEntity trackParcel(String trackingId) {
+    public Optional<ParcelEntity> trackParcel(String trackingId) {
         ParcelEntity result = parcelRepository.findByTrackingId(trackingId);
 
-        return result;
+        return Optional.ofNullable(result);
     }
 
     @Override
@@ -56,11 +58,11 @@ public class ParcelServiceImpl implements ParcelService {
         return false;
     }
 
-    public ParcelEntity transitionParcel(ParcelEntity parcel) {
+    public Optional<ParcelEntity> transitionParcel(ParcelEntity parcel) {
         validator.validate(parcel);
 
         parcelRepository.save(parcel);
 
-        return parcel;
+        return Optional.of(parcel);
     }
 }
