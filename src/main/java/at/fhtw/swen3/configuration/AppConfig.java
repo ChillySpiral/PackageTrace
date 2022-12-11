@@ -17,7 +17,7 @@ public class AppConfig {
     }
 
     @Bean
-    public WarehouseService warehouseService(InputValidator validator, WarehouseRepository warehouseRepository, TruckRepository truckRepository, TransferwarehouseRepository tansferwarehouseRepository, HopRepository hopRepository) {
-        return new WarehouseServiceImpl(validator, warehouseRepository, truckRepository, tansferwarehouseRepository, hopRepository);
+    public WarehouseService warehouseService(InputValidator validator, HopRepository hopRepository, WarehouseRepository warehouseRepository) {
+        return new WarehouseServiceImpl(validator, hopRepository, warehouseRepository);
     }
 }

@@ -19,52 +19,67 @@ public class ParcelServiceImpl implements ParcelService {
 
     @Override
     public Optional<ParcelEntity> submitParcel(ParcelEntity parcel) {
+        log.info("Validating Parcel " + parcel.toString());
         validator.validate(parcel);
-        log.info("validated parcel " + parcel.toString());
 
+        log.info("Set trackingId to PYJRB4HZ6 for parcel " + parcel);
         parcel.setTrackingId("PYJRB4HZ6");
-        log.info("set trackingId to PYJRB4HZ6 for parcel " + parcel.toString());
 
         parcelRepository.save(parcel);
 
         return Optional.of(parcel);
+
+        //ToDo: Sprint 5: Error Handling via Exception
     }
 
     @Override
     public Optional<ParcelEntity> trackParcel(String trackingId) {
-        log.info("called trackParcel with trackingId " + trackingId);
-        ParcelEntity result = parcelRepository.findByTrackingId(trackingId);
-        log.info("returning result as ParcelEntity");
+        log.info("Tracking Parcel with TrackingId: " + trackingId);
+
+        var result = parcelRepository.findByTrackingId(trackingId);
 
         return Optional.ofNullable(result);
+
+        //ToDo: Sprint 5: Error Handling via Exception
     }
 
     @Override
     public boolean reportParcelDelivery(String trackingId) {
-        log.info("called reportParcelDelivery with trackingId " + trackingId);
+        log.info("Reporting Parcel Delivery with TrackingId " + trackingId);
 
-        ParcelEntity result = parcelRepository.findByTrackingId(trackingId);
+        var result = parcelRepository.findByTrackingId(trackingId);
 
         if(result != null) {
-            log.info("ParcelEntity with trackingId " + trackingId + " was found, returning true");
+            log.info("Setting State of ParcelEntity with trackingId " + trackingId + " to DELIVERED");
             result.setState(StateEnum.DELIVERED);
             parcelRepository.save(result);
             return true;
         }
         else {
-            log.info("ParcelEntity with trackingId " + trackingId + " could not be found, returning false");
+            log.info("ParcelEntity with trackingId " + trackingId + " could not be found");
             return false;
         }
+
+        //ToDo: Sprint 5: Error Handling via Exception
     }
 
     @Override
     public boolean reportParcelHop(String trackingId, String code) {
-        log.info("called reportParcelHop with trackingId " + trackingId + " and code " + code);
+        log.info("Reporting Parcel Hop for Parcel with trackingId " + trackingId + " to code " + code);
 
-        ParcelEntity result = parcelRepository.findByTrackingId(trackingId);
+        var result = parcelRepository.findByTrackingId(trackingId);
 
         if(result != null) {
-            //Todo find hop by code and remove from future add to visited
+
+            var reachedHop = result.getFutureHops().stream().filter(x->x.getCode().equals(code)).findFirst();
+            if(reachedHop.isPresent()){
+                result.getVisitedHops().add(reachedHop.get());
+                result.getFutureHops().remove(reachedHop.get());
+            } else{
+                log.error("Hop with code: " + code + " not found");
+                //ToDo: Sprint 5: Error Handling via Exception
+            }
+
             log.info("ParcelEntity with trackingId " + trackingId + " was found, returning true");
             return true;
         }
@@ -72,17 +87,20 @@ public class ParcelServiceImpl implements ParcelService {
             log.info("ParcelEntity with trackingId " + trackingId + " could not be found, returning false");
             return false;
         }
+        //ToDo: Sprint 5: Error Handling via Exception
     }
 
     public Optional<ParcelEntity> transitionParcel(ParcelEntity parcel) {
-        log.info("called transitionParcel with parcel " + parcel.toString());
+        log.info("Transition Parcel: " + parcel.toString());
 
+        log.info("Validating Parcel: " + parcel);
         validator.validate(parcel);
-        log.info("validated parcel " + parcel.toString());
 
+        log.info("Saving Parcel " + parcel);
         parcelRepository.save(parcel);
-        log.info("returning parcel");
 
         return Optional.of(parcel);
+
+        //ToDo: Sprint 5: Error Handling via Exception
     }
 }

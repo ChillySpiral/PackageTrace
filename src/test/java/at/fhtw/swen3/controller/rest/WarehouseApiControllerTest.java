@@ -49,7 +49,7 @@ class WarehouseApiControllerTest {
     @Test
     @Order(1)
     void importWarehouses() {
-        Warehouse warehouse = Warehouse.builder().level(1).code("ABCD123").description("hi").locationCoordinates(new GeoCoordinate(12D,1D)).processingDelayMins(12).locationName("Vienne").hopType("sth").nextHops(new ArrayList<>()).build();
+        Warehouse warehouse = Warehouse.builder().level(0).code("ABCD123").description("hi").locationCoordinates(new GeoCoordinate(12D,1D)).processingDelayMins(12).locationName("Vienne").hopType("sth").nextHops(new ArrayList<>()).build();
 
         ResponseEntity<Void> result = controller.importWarehouses(warehouse);
         assertEquals(HttpStatus.OK, result.getStatusCode());
