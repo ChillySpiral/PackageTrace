@@ -22,6 +22,7 @@ public class ParcelServiceImpl implements ParcelService {
         log.info("Validating Parcel " + parcel.toString());
         validator.validate(parcel);
 
+        //ToDo: Generate New TrackingID
         log.info("Set trackingId to PYJRB4HZ6 for parcel " + parcel);
         parcel.setTrackingId("PYJRB4HZ6");
 
@@ -75,6 +76,7 @@ public class ParcelServiceImpl implements ParcelService {
             if(reachedHop.isPresent()){
                 result.getVisitedHops().add(reachedHop.get());
                 result.getFutureHops().remove(reachedHop.get());
+                parcelRepository.save(result);
             } else{
                 log.error("Hop with code: " + code + " not found");
                 //ToDo: Sprint 5: Error Handling via Exception

@@ -38,7 +38,7 @@ public class HopEntity {
     private String locationName;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private GeoCoordinateEntity locationCoordinates;
     public void setId(Long id) {
         this.id = id;

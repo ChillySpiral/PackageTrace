@@ -31,6 +31,8 @@ public class WarehouseServiceImpl implements WarehouseService {
             validator.validate(truck);
         } else if (hopEntity instanceof TransferwarehouseEntity transferwarehouse) {
             validator.validate(transferwarehouse);
+        } else {
+            return false;
         }
         hopRepository.save(hopEntity);
         return true;

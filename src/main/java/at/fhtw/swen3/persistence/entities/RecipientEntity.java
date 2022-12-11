@@ -38,10 +38,12 @@ public class RecipientEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @ToString.Exclude
     private List<ParcelEntity> senderParcels = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipient")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @ToString.Exclude
     private List<ParcelEntity> recipientParcel = new ArrayList<>();
 
     @AssertTrue(message = "Street Address does not match")
