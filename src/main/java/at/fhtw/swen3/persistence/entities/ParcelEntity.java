@@ -42,10 +42,12 @@ public class ParcelEntity {
     private StateEnum state;
 
     @NotNull
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parcel", fetch = FetchType.EAGER)
     private List<HopArrivalEntity> visitedHops = new ArrayList<>();
 
     @NotNull
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parcel", fetch = FetchType.EAGER)
     private List<HopArrivalEntity> futureHops = new ArrayList<>();
 

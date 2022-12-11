@@ -1,8 +1,7 @@
 package at.fhtw.swen3.persistence.repositories;
 
-import at.fhtw.swen3.persistence.entities.*;
-import at.fhtw.swen3.services.dto.GeoCoordinate;
-import at.fhtw.swen3.services.dto.Warehouse;
+import at.fhtw.swen3.persistence.entities.GeoCoordinateEntity;
+import at.fhtw.swen3.persistence.entities.TransferwarehouseEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @TestPropertySource("/application-test.properties")

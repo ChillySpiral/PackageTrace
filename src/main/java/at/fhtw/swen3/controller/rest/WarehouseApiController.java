@@ -2,13 +2,10 @@ package at.fhtw.swen3.controller.rest;
 
 
 import at.fhtw.swen3.controller.WarehouseApi;
-import at.fhtw.swen3.persistence.entities.HopEntity;
-import at.fhtw.swen3.persistence.entities.WarehouseEntity;
 import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.dto.Hop;
 import at.fhtw.swen3.services.dto.Warehouse;
 import at.fhtw.swen3.services.mapper.HopMapper;
-import at.fhtw.swen3.services.mapper.WarehouseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,53 +32,69 @@ public class WarehouseApiController implements WarehouseApi {
 
     @Override
     public ResponseEntity<Warehouse> exportWarehouses() {
-        log.info("called exportWarehouses");
-        WarehouseEntity warehouseEntity = service.exportWarehouses();
-        Warehouse warehouse = WarehouseMapper.INSTANCE.entityToDto(warehouseEntity);
-        return new ResponseEntity<>(warehouse, HttpStatus.OK);
+        log.info("Request: Export Warehouses");
+        try {
+            var warehouseEntity = service.exportWarehouses();
+
+            if (warehouseEntity.isPresent()) {
+                var warehouse = (Warehouse) HopMapper.INSTANCE.entityToDto(warehouseEntity.get());
+                log.info("Completed: exportWarehouses was successfully executed, HttpStatus.OK");
+                return new ResponseEntity<>(warehouse, HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp) {
+            //ToDo Sprint 5: Return Error
+            log.error("Message: " +  exp.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
     public ResponseEntity<Hop> getWarehouse(String code) {
-        log.info("called getWarehouse with code " + code);
-        HopEntity hopEntity = service.getWarehouse(code);
+        log.info("Request: Get Warehouse with code: " + code);
+        try{
+            var hopEntity = service.getWarehouse(code);
 
-        if(hopEntity != null) {
-            log.info("getWarehouse with code " + code + " was successfully executed, HttpStatus.OK");
-            Hop hop = HopMapper.INSTANCE.entityToDto(hopEntity);
-            return new ResponseEntity<>(hop, HttpStatus.OK);
+            if(hopEntity.isPresent()){
+                var hop = HopMapper.INSTANCE.entityToDto(hopEntity.get());
+                log.info("Completed: getWarehouse with code " + code + " was successfully executed, HttpStatus.OK");
+                return new ResponseEntity<>(hop, HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp){
+            log.error("Request Parameters: code: "+code+" Message: " +  exp.getMessage());
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        else {
-            log.info("getWarehouse with code " + code + " could not be executed, HttpStatus.OK");
-            return new ResponseEntity<>(HttpStatus.OK);
-            /* ToDo: Activate with Sprint 4
-            log.info("getWarehouse with code " + code + " could not be executed, HttpStatus.NOT_FOUND");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);*/
-        }
-
     }
 
     @Override
     public ResponseEntity<Void> importWarehouses(Warehouse warehouse) {
-        log.info("called importWarehouses with warehouse " + warehouse.toString());
+        log.info("Import Warehouses: " + warehouse.getCode());
+        try {
+            var warehouseEntity = HopMapper.INSTANCE.dtoToEntity(warehouse);
 
-        WarehouseEntity warehouseEntity = WarehouseMapper.INSTANCE.dtoToEntity(warehouse);
+            var success = service.importWarehouses(warehouseEntity);
 
-        boolean success = service.importWarehouses(warehouseEntity);
-
-        if(success){
-            log.info("importWarehouses with warehouse " + warehouse.toString() + " was successfully executed, HttpStatus.OK");
-            return new ResponseEntity<>(HttpStatus.OK);
+            if (success) {
+                log.info("Completed: importWarehouses with warehouse " + warehouse.getCode() + " was successfully executed, HttpStatus.OK");
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                //ToDo Sprint 5: Exception Handling/Error Handling
+                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
+                throw new Exception("Unknown Error");
+            }
+        } catch (Exception exp) {
+            log.error("Request Parameters: warehouse(code): "+warehouse.getCode()+" Message: " +  exp.getMessage());
+            //ToDo Sprint 5: Return Error
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        else {
-            log.info("importWarehouses with warehouse " + warehouse.toString() + " could not be executed, HttpStatus.OK");
-            return new ResponseEntity<>(HttpStatus.OK);
-            /* ToDo: Activate with Sprint 4
-            log.info("importWarehouses with warehouse " + warehouse.toString() + " could not be executed, HttpStatus.NOT_FOUND");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            */
-        }
-
     }
 
 }

@@ -1,18 +1,17 @@
 package at.fhtw.swen3.controller.rest;
 
+import at.fhtw.swen3.persistence.repositories.HopRepository;
 import at.fhtw.swen3.services.dto.GeoCoordinate;
 import at.fhtw.swen3.services.dto.Hop;
 import at.fhtw.swen3.services.dto.Warehouse;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,13 +25,30 @@ class WarehouseApiControllerTest {
     @Autowired
     WarehouseApiController controller;
 
-    @Test
-    @Order(3)
-    void exportWarehouses() {
-        ResponseEntity<Warehouse> result = controller.exportWarehouses();
+    private static HopRepository repository;
 
+    @Autowired
+    private HopRepository repositoryInit;
+
+    @PostConstruct
+    private void initStaticDao () {
+        repository = this.repositoryInit;
+    }
+    @AfterAll
+    public static void cleanup(){
+        var hopOne = repository.findByCode("ABCD123");
+
+        repository.delete(hopOne);
+    }
+
+    @Test
+    @Order(1)
+    void importWarehouses() {
+        Warehouse warehouse = Warehouse.builder().level(0).code("ABCD123").description("hi").locationCoordinates(new GeoCoordinate(12D,1D)).processingDelayMins(12).locationName("Vienne").hopType("sth").nextHops(new ArrayList<>()).build();
+
+        ResponseEntity<Void> result = controller.importWarehouses(warehouse);
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertTrue(result.hasBody());
+
     }
 
     @Test
@@ -47,12 +63,11 @@ class WarehouseApiControllerTest {
     }
 
     @Test
-    @Order(1)
-    void importWarehouses() {
-        Warehouse warehouse = Warehouse.builder().level(1).code("ABCD123").description("hi").locationCoordinates(new GeoCoordinate(12D,1D)).processingDelayMins(12).locationName("Vienne").hopType("sth").nextHops(new ArrayList<>()).build();
+    @Order(3)
+    void exportWarehouses() {
+        ResponseEntity<Warehouse> result = controller.exportWarehouses();
 
-        ResponseEntity<Void> result = controller.importWarehouses(warehouse);
         assertEquals(HttpStatus.OK, result.getStatusCode());
-
+        assertTrue(result.hasBody());
     }
 }

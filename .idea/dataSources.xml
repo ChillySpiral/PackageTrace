@@ -8,5 +8,19 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/tracerdb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="postgres@awseb-e-ahct6pgfb8-stack-awsebrdsdatabase-ojtnhcyx558h.ce7hupjcturh.us-east-1.rds.amazonaws.com" uuid="a200a863-9255-4bc5-92eb-de9ab4265050">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://awseb-e-ahct6pgfb8-stack-awsebrdsdatabase-ojtnhcyx558h.ce7hupjcturh.us-east-1.rds.amazonaws.com:5432/postgres</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="AWS.RdsSigningPort" value="5432" />
+        <property name="AWS.RegionId" value="us-east-1" />
+        <property name="AWS.CredentialId" value="profile:default" />
+        <property name="AWS.RdsSigningHost" value="awseb-e-ahct6pgfb8-stack-awsebrdsdatabase-ojtnhcyx558h.ce7hupjcturh.us-east-1.rds.amazonaws.com" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

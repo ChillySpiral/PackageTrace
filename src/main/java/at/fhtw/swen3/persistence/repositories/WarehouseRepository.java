@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface WarehouseRepository extends JpaRepository<WarehouseEntity, Long> {
 
-    List<WarehouseEntity> findAllByLevel(Integer level);
+    WarehouseEntity findByLevel(Integer level);
 
     WarehouseEntity findByCode(String code);
 

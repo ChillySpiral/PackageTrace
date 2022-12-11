@@ -30,7 +30,7 @@ public class HopEntity {
 
     @NotNull
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z\\s\\d-]+$")
+    @Pattern(regexp = "^[a-zA-ZäüöÄßÜÖ\\s\\d-]+$")
     private String description;
 
     private Integer processingDelayMins;
@@ -38,7 +38,7 @@ public class HopEntity {
     private String locationName;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private GeoCoordinateEntity locationCoordinates;
     public void setId(Long id) {
         this.id = id;

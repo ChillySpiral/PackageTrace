@@ -6,7 +6,7 @@
     <name>openapi-spring</name>
     <version>1.22.1</version>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>19</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,12 +84,12 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.4.2.Final</version>
+            <version>1.5.3.Final</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.4.2.Final</version>
+            <version>1.5.3.Final</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
