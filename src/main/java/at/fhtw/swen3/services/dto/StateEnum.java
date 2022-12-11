@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * State of the parcel.
  */
 public enum StateEnum {
+    UNKNOWN("Unknown"),
     PICKUP("Pickup"),
-
     INTRANSPORT("InTransport"),
 
     INTRUCKDELIVERY("InTruckDelivery"),

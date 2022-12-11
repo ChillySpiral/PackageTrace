@@ -4,55 +4,52 @@ import at.fhtw.swen3.persistence.entities.HopEntity;
 import at.fhtw.swen3.persistence.entities.TransferwarehouseEntity;
 import at.fhtw.swen3.persistence.entities.TruckEntity;
 import at.fhtw.swen3.persistence.entities.WarehouseEntity;
-import at.fhtw.swen3.persistence.repositories.TransferwarehouseRepository;
-import at.fhtw.swen3.persistence.repositories.TruckRepository;
+import at.fhtw.swen3.persistence.repositories.HopRepository;
 import at.fhtw.swen3.persistence.repositories.WarehouseRepository;
 import at.fhtw.swen3.services.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import at.fhtw.swen3.services.validation.InputValidator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@Service
+import java.util.Optional;
+
+@RequiredArgsConstructor
+@Slf4j
 public class WarehouseServiceImpl implements WarehouseService {
 
+    private final InputValidator validator;
+
+    private final HopRepository hopRepository;
     private final WarehouseRepository warehouseRepository;
-    private final TruckRepository truckRepository;
-    private final TransferwarehouseRepository tansferwarehouseRepository;
-    @Autowired
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, TruckRepository truckRepository, TransferwarehouseRepository tansferwarehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
-        this.truckRepository = truckRepository;
-        this.tansferwarehouseRepository = tansferwarehouseRepository;
-    }
 
     @Override
-    public boolean importWarehouses(WarehouseEntity warehouse) {
-        warehouseRepository.save(warehouse);
+    public boolean importWarehouses(HopEntity hopEntity) {
+        log.info("Service: Import Warehouses with warehouse " + hopEntity.getCode());
+        if (hopEntity instanceof WarehouseEntity warehouse) {
+            validator.validate(warehouse);
+        } else if (hopEntity instanceof TruckEntity truck) {
+            validator.validate(truck);
+        } else if (hopEntity instanceof TransferwarehouseEntity transferwarehouse) {
+            validator.validate(transferwarehouse);
+        } else {
+            return false;
+        }
+        hopRepository.save(hopEntity);
         return true;
     }
 
     @Override
-    public WarehouseEntity exportWarehouses() {
-
-        return new WarehouseEntity();
+    public Optional<WarehouseEntity> exportWarehouses() {
+        log.info("Service: Export Warehouses");
+        var hopStart = warehouseRepository.findByLevel(0);
+        return Optional.ofNullable(hopStart);
     }
 
     @Override
-    public HopEntity getWarehouse(String code) {
-        WarehouseEntity wareEntity = warehouseRepository.findByCode(code);
-        if(null != wareEntity) {
-            return wareEntity;
-        }
+    public Optional<HopEntity> getWarehouse(String code) {
+        log.info("Service: Get Warehouse with code " + code);
+        var hopEntity = hopRepository.findByCode(code);
 
-        TruckEntity truckEntity = truckRepository.findByCode(code);
-        if(null != truckEntity) {
-            return truckEntity;
-        }
-
-        TransferwarehouseEntity transferwarehouseEntity = tansferwarehouseRepository.findByCode(code);
-        if(null != transferwarehouseEntity) {
-            return transferwarehouseEntity;
-        }
-
-        return null;
+        return Optional.ofNullable(hopEntity);
     }
 }

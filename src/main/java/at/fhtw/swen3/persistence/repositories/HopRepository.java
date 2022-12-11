@@ -7,8 +7,5 @@ import java.util.List;
 
 @Repository
 public interface HopRepository extends JpaRepository<HopEntity, Long> {
-
-    List<HopEntity> findAllByHopType(String hopType);
-    HopEntity findByDescription(String description);
-    List<HopEntity> findAllByLocationName(String locationName);
+    HopEntity findByCode(String code);
 }

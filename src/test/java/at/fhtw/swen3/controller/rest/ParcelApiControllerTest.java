@@ -1,21 +1,21 @@
 package at.fhtw.swen3.controller.rest;
 
-import at.fhtw.swen3.controller.rest.ParcelApiController;
-import at.fhtw.swen3.services.dto.*;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import at.fhtw.swen3.persistence.repositories.ParcelRepository;
+import at.fhtw.swen3.services.dto.NewParcelInfo;
+import at.fhtw.swen3.services.dto.Parcel;
+import at.fhtw.swen3.services.dto.Recipient;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.annotation.PostConstruct;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-//ToDo: Fix with proper Implementation (Sprint 4)
 @SpringBootTest
 @TestPropertySource("/application-test.properties")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -24,31 +24,22 @@ class ParcelApiControllerTest {
     @Autowired
     ParcelApiController controller;
 
-    @Test
-    @Order(3)
-    void reportParcelDelivery() {
-        //Arrange
-        String trackingId = "437898104";
+    private static ParcelRepository repository;
 
-        //Act
-        ResponseEntity<Void> result = controller.reportParcelDelivery(trackingId);
+    @Autowired
+    private ParcelRepository repositoryInit;
 
-        //Assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
+    @PostConstruct
+    private void initStaticDao () {
+        repository = this.repositoryInit;
     }
+    @AfterAll
+    public static void cleanup(){
+        var parcelOne = repository.findByTrackingId("437898104");
+        var parcelTwo = repository.findByTrackingId("PYJRB4HZ6");
 
-    @Test
-    @Order(4)
-    void reportParcelHop() {
-        //Arrange
-        String trackingId = "437898104";
-        String code = "MOON991";
-
-        //Act
-        ResponseEntity<Void> result = controller.reportParcelHop(trackingId, code);
-
-        //Assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
+        repository.delete(parcelOne);
+        repository.delete(parcelTwo);
     }
 
     @Order(1)
@@ -75,11 +66,38 @@ class ParcelApiControllerTest {
         String trackingId = "PYJRB4HZ6";
 
         //Act
-        ResponseEntity<TrackingInformation> result = controller.trackParcel(trackingId);
+        ResponseEntity result = controller.trackParcel(trackingId);
 
         //Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertTrue(result.hasBody());
+    }
+
+    @Test
+    @Order(3)
+    void reportParcelDelivery() {
+        //Arrange
+        String trackingId = "PYJRB4HZ6";
+
+        //Act
+        ResponseEntity<Void> result = controller.reportParcelDelivery(trackingId);
+
+        //Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    @Order(4)
+    void reportParcelHop() {
+        //Arrange
+        String trackingId = "PYJRB4HZ6";
+        String code = "MOON991";
+
+        //Act
+        ResponseEntity<Void> result = controller.reportParcelHop(trackingId, code);
+
+        //Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test

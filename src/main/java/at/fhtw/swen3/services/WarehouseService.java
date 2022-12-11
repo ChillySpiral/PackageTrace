@@ -7,11 +7,13 @@ import at.fhtw.swen3.services.dto.Warehouse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 public interface WarehouseService {
-    public boolean importWarehouses(WarehouseEntity warehouse);
+    boolean importWarehouses(HopEntity hopEntity);
 
-    public WarehouseEntity exportWarehouses();
+    Optional<WarehouseEntity> exportWarehouses();
 
-    public HopEntity getWarehouse(String code);
+    Optional<HopEntity> getWarehouse(String code);
 
 }

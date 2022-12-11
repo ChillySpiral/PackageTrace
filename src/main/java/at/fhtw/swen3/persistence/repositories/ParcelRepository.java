@@ -13,4 +13,6 @@ public interface ParcelRepository extends JpaRepository<ParcelEntity, Long> {
     ParcelEntity findByTrackingId(String trackingId);
     List<ParcelEntity> findAllByState(StateEnum state);
 
+
+
 }
