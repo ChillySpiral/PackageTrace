@@ -28,9 +28,13 @@ public class OMSEncodingProxy implements GeoEncodingService {
         try{
             log.info("Retrieving GeoCoordinate Information from OMS");
             var result = service.getGeoEncodingInfo(1, address, "json", 1).execute().body();
-            return result.get(0);
+            if(result != null && !result.isEmpty())
+                return result.get(0);
+            else
+                return null;
         } catch (IOException e) {
-            log.error("Get Weather for tour [address: "+address+"] failed [error: "+e.getMessage()+"]");
+            //ToDo: Throw Encoding Exception
+            log.error("GeoEncoding for [address: "+address+"] failed [error: "+e.getMessage()+"]");
         }
         return null;
     }
