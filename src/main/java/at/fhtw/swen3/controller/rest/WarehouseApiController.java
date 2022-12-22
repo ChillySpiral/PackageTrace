@@ -5,6 +5,8 @@ import at.fhtw.swen3.controller.WarehouseApi;
 import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.dto.Hop;
 import at.fhtw.swen3.services.dto.Warehouse;
+import at.fhtw.swen3.services.BLDataNotFoundException;
+import at.fhtw.swen3.services.BLValidationException;
 import at.fhtw.swen3.services.mapper.HopMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,19 +38,18 @@ public class WarehouseApiController implements WarehouseApi {
         try {
             var warehouseEntity = service.exportWarehouses();
 
-            if (warehouseEntity.isPresent()) {
-                var warehouse = (Warehouse) HopMapper.INSTANCE.entityToDto(warehouseEntity.get());
-                log.info("Completed: exportWarehouses was successfully executed, HttpStatus.OK");
-                return new ResponseEntity<>(warehouse, HttpStatus.OK);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-            }
+            var warehouse = (Warehouse) HopMapper.INSTANCE.entityToDto(warehouseEntity.get());
+            log.info("Completed: Export Warehouses was successfully executed, HttpStatus.OK");
+            return new ResponseEntity<>(warehouse, HttpStatus.OK);
+
+        } catch (BLDataNotFoundException exp) {
+            log.info("Service: Export Warehouses failed with errormessage: " +  exp.toString());
+            return new ResponseEntity<>(new Warehouse(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         } catch (Exception exp) {
-            //ToDo Sprint 5: Return Error
-            log.error("Message: " +  exp.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            log.info("Service: Export Warehouses failed with errormessage: " +  exp.getMessage());
+            return new ResponseEntity<>(new Warehouse(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         }
     }
 
@@ -58,19 +59,18 @@ public class WarehouseApiController implements WarehouseApi {
         try{
             var hopEntity = service.getWarehouse(code);
 
-            if(hopEntity.isPresent()){
-                var hop = HopMapper.INSTANCE.entityToDto(hopEntity.get());
-                log.info("Completed: getWarehouse with code " + code + " was successfully executed, HttpStatus.OK");
-                return new ResponseEntity<>(hop, HttpStatus.OK);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-            }
-        } catch (Exception exp){
+            var hop = HopMapper.INSTANCE.entityToDto(hopEntity.get());
+            log.info("Completed: getWarehouse with code " + code + " was successfully executed, HttpStatus.OK");
+            return new ResponseEntity<>(hop, HttpStatus.OK);
+
+        } catch (BLDataNotFoundException exp) {
+            log.info("Request: Get Warehouse with code: " + code + " failed with errormessage: " +  exp.toString());
+            return new ResponseEntity<>(new Hop(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
+        } catch (Exception exp) {
             log.error("Request Parameters: code: "+code+" Message: " +  exp.getMessage());
-            //ToDo Sprint 5: Return Error
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Hop(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         }
     }
 
@@ -80,20 +80,19 @@ public class WarehouseApiController implements WarehouseApi {
         try {
             var warehouseEntity = HopMapper.INSTANCE.dtoToEntity(warehouse);
 
-            var success = service.importWarehouses(warehouseEntity);
+            service.importWarehouses(warehouseEntity);
 
-            if (success) {
-                log.info("Completed: importWarehouses with warehouse " + warehouse.getCode() + " was successfully executed, HttpStatus.OK");
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-            }
+            log.info("Completed: importWarehouses with warehouse " + warehouse.getCode() + " was successfully executed, HttpStatus.OK");
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (BLValidationException exp) {
+            log.error("Import Warehouses with code " + warehouse.getCode() +" could not be imported because validation failed with errormessage " +  exp.toString());
+            return new ResponseEntity<>(HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         } catch (Exception exp) {
             log.error("Request Parameters: warehouse(code): "+warehouse.getCode()+" Message: " +  exp.getMessage());
-            //ToDo Sprint 5: Return Error
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         }
     }
 
