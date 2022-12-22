@@ -2,19 +2,17 @@ package at.fhtw.swen3.services.impl;
 
 import at.fhtw.swen3.persistence.entities.*;
 import at.fhtw.swen3.persistence.repositories.HopRepository;
-import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.services.WarehouseService;
-import at.fhtw.swen3.services.dto.WarehouseNextHops;
-import lombok.RequiredArgsConstructor;
+import at.fhtw.swen3.services.BLDataNotFoundException;
+import at.fhtw.swen3.services.BLValidationException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -108,7 +106,12 @@ class WarehouseServiceImplTest {
         var warehouse = entityStructure;
 
         //Act
-        var res = service.importWarehouses(warehouse);
+        boolean res = false;
+        try {
+            res = service.importWarehouses(warehouse);
+        } catch (BLValidationException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res);
@@ -123,10 +126,16 @@ class WarehouseServiceImplTest {
         var transferWarehouseCode = "WENB01";
 
         //Act
-        var resWarehouse = service.getWarehouse(warehouseCode);
-        var resTruck = service.getWarehouse(truckCode);
-        var resTransferWarehouse = service.getWarehouse(transferWarehouseCode);
-
+        Optional<HopEntity> resWarehouse = null;
+        Optional<HopEntity> resTruck = null;
+        Optional<HopEntity> resTransferWarehouse = null;
+        try {
+            resWarehouse = service.getWarehouse(warehouseCode);
+            resTruck = service.getWarehouse(truckCode);
+            resTransferWarehouse = service.getWarehouse(transferWarehouseCode);
+        } catch (BLDataNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         //Assert
         assertTrue(resWarehouse.isPresent());
         assertTrue(resTruck.isPresent());
@@ -147,7 +156,12 @@ class WarehouseServiceImplTest {
         //Arrange
 
         //Act
-        var res = service.exportWarehouses();
+        Optional<WarehouseEntity> res = null;
+        try {
+            res = service.exportWarehouses();
+        } catch (BLDataNotFoundException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res.isPresent());

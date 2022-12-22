@@ -6,6 +6,8 @@ import at.fhtw.swen3.persistence.entities.RecipientEntity;
 import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.services.ParcelService;
 import at.fhtw.swen3.services.dto.StateEnum;
+import at.fhtw.swen3.services.BLDataNotFoundException;
+import at.fhtw.swen3.services.BLValidationException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,9 +16,9 @@ import org.springframework.test.context.TestPropertySource;
 import javax.annotation.PostConstruct;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestPropertySource("/application-test.properties")
@@ -112,7 +114,12 @@ class ParcelServiceImplTest {
         var submitParcel = parcel;
 
         //Act
-        var res = service.submitParcel(submitParcel);
+        Optional<ParcelEntity> res = null;
+        try {
+            res = service.submitParcel(submitParcel);
+        } catch (BLValidationException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res.isPresent());
@@ -126,7 +133,12 @@ class ParcelServiceImplTest {
         //Arrange
         var trackingId = "PYJRB4HZ6";
         //Act
-        var res = service.trackParcel(trackingId);
+        Optional<ParcelEntity> res = null;
+        try {
+            res = service.trackParcel(trackingId);
+        } catch (BLDataNotFoundException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res.isPresent());
@@ -143,7 +155,12 @@ class ParcelServiceImplTest {
         var visitedHop = "WTTA01";
 
         //Act
-        var res = service.reportParcelHop(trackingId, visitedHop);
+        boolean res = false;
+        try {
+            res = service.reportParcelHop(trackingId, visitedHop);
+        } catch (BLDataNotFoundException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res);
@@ -156,7 +173,12 @@ class ParcelServiceImplTest {
         var trackingId = "PYJRB4HZ6";
 
         //Act
-        var res = service.trackParcel(trackingId);
+        Optional<ParcelEntity> res = null;
+        try {
+            res = service.trackParcel(trackingId);
+        } catch (BLDataNotFoundException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res.isPresent());
@@ -174,7 +196,12 @@ class ParcelServiceImplTest {
         var trackingId = "PYJRB4HZ6";
 
         //Act
-        var res = service.reportParcelDelivery(trackingId);
+        boolean res = false;
+        try {
+            res = service.reportParcelDelivery(trackingId);
+        } catch (BLDataNotFoundException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res);
@@ -187,7 +214,12 @@ class ParcelServiceImplTest {
         var trackingId = "PYJRB4HZ6";
 
         //Act
-        var res = service.trackParcel(trackingId);
+        Optional<ParcelEntity> res = null;
+        try {
+            res = service.trackParcel(trackingId);
+        } catch (BLDataNotFoundException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res.isPresent());
@@ -202,7 +234,12 @@ class ParcelServiceImplTest {
         transitionParcel.setTrackingId("ZEHH489IS");
 
         //Act
-        var res = service.transitionParcel(parcel);
+        Optional<ParcelEntity> res = null;
+        try {
+            res = service.transitionParcel(parcel);
+        } catch (BLValidationException e) {
+            fail("Exception thrown");
+        }
 
         //Assert
         assertTrue(res.isPresent());
