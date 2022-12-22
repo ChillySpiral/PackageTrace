@@ -62,7 +62,7 @@ public class ParcelApiController implements ParcelApi {
             log.info("Completed: reportParcelHop with trackingId " + trackingId + " and code " + code + " was successfully executed, HttpStatus.OK");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (BLDataNotFoundException exp) {
-            log.info("ParcelHop with trackingId: "+trackingId+ " could not be reported because the vorresponding hop could not be found, errormessage: " +  exp.toString());
+            log.info("ParcelHop with trackingId: "+trackingId+ " could not be reported because the corresponding hop could not be found, errormessage: " +  exp.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
