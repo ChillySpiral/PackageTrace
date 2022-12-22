@@ -7,15 +7,12 @@ import at.fhtw.swen3.persistence.entities.WarehouseEntity;
 import at.fhtw.swen3.persistence.repositories.HopRepository;
 import at.fhtw.swen3.persistence.repositories.WarehouseRepository;
 import at.fhtw.swen3.services.WarehouseService;
-import at.fhtw.swen3.services.exceptions.BLDataNotFoundException;
-import at.fhtw.swen3.services.exceptions.BLValidationException;
-import at.fhtw.swen3.services.exceptions.DALDataNotFondException;
-import at.fhtw.swen3.services.exceptions.DALException;
+import at.fhtw.swen3.services.BLDataNotFoundException;
+import at.fhtw.swen3.services.BLValidationException;
+import at.fhtw.swen3.persistence.DALDataNotFondException;
 import at.fhtw.swen3.services.validation.InputValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Optional;

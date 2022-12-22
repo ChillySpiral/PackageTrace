@@ -1,4 +1,4 @@
-package at.fhtw.swen3.services.exceptions;
+package at.fhtw.swen3.services;
 
 public class BLDataNotFoundException extends BLException {
 

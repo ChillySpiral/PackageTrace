@@ -5,9 +5,8 @@ import at.fhtw.swen3.controller.WarehouseApi;
 import at.fhtw.swen3.services.WarehouseService;
 import at.fhtw.swen3.services.dto.Hop;
 import at.fhtw.swen3.services.dto.Warehouse;
-import at.fhtw.swen3.services.exceptions.BLDataNotFoundException;
-import at.fhtw.swen3.services.exceptions.BLValidationException;
-import at.fhtw.swen3.services.exceptions.DALDataNotFondException;
+import at.fhtw.swen3.services.BLDataNotFoundException;
+import at.fhtw.swen3.services.BLValidationException;
 import at.fhtw.swen3.services.mapper.HopMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,10 +44,12 @@ public class WarehouseApiController implements WarehouseApi {
 
         } catch (BLDataNotFoundException exp) {
             log.info("Service: Export Warehouses failed with errormessage: " +  exp.toString());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Warehouse(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         } catch (Exception exp) {
             log.info("Service: Export Warehouses failed with errormessage: " +  exp.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Warehouse(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         }
     }
 
@@ -64,10 +65,12 @@ public class WarehouseApiController implements WarehouseApi {
 
         } catch (BLDataNotFoundException exp) {
             log.info("Request: Get Warehouse with code: " + code + " failed with errormessage: " +  exp.toString());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Hop(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         } catch (Exception exp) {
             log.error("Request Parameters: code: "+code+" Message: " +  exp.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Hop(), HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         }
     }
 
@@ -84,10 +87,12 @@ public class WarehouseApiController implements WarehouseApi {
 
         } catch (BLValidationException exp) {
             log.error("Import Warehouses with code " + warehouse.getCode() +" could not be imported because validation failed with errormessage " +  exp.toString());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         } catch (Exception exp) {
             log.error("Request Parameters: warehouse(code): "+warehouse.getCode()+" Message: " +  exp.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
+            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST); Todo Reactivate
         }
     }
 

@@ -2,21 +2,16 @@ package at.fhtw.swen3.services.impl;
 
 import at.fhtw.swen3.persistence.entities.*;
 import at.fhtw.swen3.persistence.repositories.HopRepository;
-import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.services.WarehouseService;
-import at.fhtw.swen3.services.dto.WarehouseNextHops;
-import at.fhtw.swen3.services.exceptions.BLDataNotFoundException;
-import at.fhtw.swen3.services.exceptions.BLValidationException;
-import lombok.RequiredArgsConstructor;
+import at.fhtw.swen3.services.BLDataNotFoundException;
+import at.fhtw.swen3.services.BLValidationException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

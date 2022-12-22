@@ -1,4 +1,4 @@
-package at.fhtw.swen3.services.exceptions;
+package at.fhtw.swen3.persistence;
 
 public class DALDataNotFondException extends  DALException {
     public DALDataNotFondException(String errorMessage, String functionName, String className) {
