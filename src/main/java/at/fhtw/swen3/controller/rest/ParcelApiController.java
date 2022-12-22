@@ -8,6 +8,8 @@ import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.Parcel;
 import at.fhtw.swen3.services.dto.StateEnum;
 import at.fhtw.swen3.services.dto.TrackingInformation;
+import at.fhtw.swen3.services.exceptions.BLDataNotFoundException;
+import at.fhtw.swen3.services.exceptions.BLValidationException;
 import at.fhtw.swen3.services.mapper.ParcelMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.annotation.Generated;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -41,17 +44,11 @@ public class ParcelApiController implements ParcelApi {
         try {
             var success = service.reportParcelDelivery(trackingId);
 
-            if (success) {
-                log.info("Completed: reportParcelDelivery with trackingId " + trackingId + " was successfully executed, HttpStatus.OK");
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-            }
-        } catch (Exception exp) {
-            log.error("Request Parameters: trackingId: "+trackingId+ " Message: " +  exp.getMessage());
-            //ToDo: Sprint 5 Return Error Information
+            log.info("Completed: reportParcelDelivery with trackingId " + trackingId + " was successfully executed, HttpStatus.OK");
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (BLDataNotFoundException exp) {
+            log.info("Parcel Delivery with trackingId: "+trackingId+ " could not be delivered because the corresponding parcel could not be found, errormessage: " +  exp.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -62,18 +59,10 @@ public class ParcelApiController implements ParcelApi {
         try {
             var success = service.reportParcelHop(trackingId, code);
 
-            if (success) {
-                log.info("Completed: reportParcelHop with trackingId " + trackingId + " and code " + code + " was successfully executed, HttpStatus.OK");
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-
-            }
-        } catch (Exception exp) {
-            log.error("Request Parameters: trackingId: "+trackingId+" code:"+ code +" Message: " +  exp.getMessage());
-            //ToDo: Sprint 5 Return Error Information
+            log.info("Completed: reportParcelHop with trackingId " + trackingId + " and code " + code + " was successfully executed, HttpStatus.OK");
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BLDataNotFoundException exp) {
+            log.info("ParcelHop with trackingId: "+trackingId+ " could not be reported because the vorresponding hop could not be found, errormessage: " +  exp.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -85,18 +74,12 @@ public class ParcelApiController implements ParcelApi {
             var parcelEntity = mapRegisterNewParcel(parcel);
             var result = service.submitParcel(parcelEntity);
 
-            if (result.isPresent()) {
-                log.info("Completed: submitParcel with parcel " + parcel.toString() + " was successfully executed, HttpStatus.CREATED");
-                var newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result.get());
-                return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.CREATED);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-            }
-        } catch (Exception exp) {
-            log.error("Request Parameters: parcel: "+parcel.toString()+" Message: " +  exp.getMessage());
-            //ToDo Sprint 5: Return Error
+            log.info("Completed: submitParcel with parcel " + parcel.toString() + " was successfully executed, HttpStatus.CREATED");
+            var newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result.get());
+            return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.CREATED);
+
+        } catch (BLValidationException exp) {
+            log.info("Parcel with parcel "+parcel.toString()+" could not be submitted because validation failed with errormessage " +  exp.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -107,18 +90,12 @@ public class ParcelApiController implements ParcelApi {
         try {
             var result = service.trackParcel(trackingId);
 
-            if (result.isPresent()) {
-                log.info("Completed: trackParcel with trackingId " + trackingId + " was successfully executed, HttpStatus.OK");
-                TrackingInformation trackingInformation = ParcelMapper.INSTANCE.entityToTrackingInformationDto(result.get());
-                return new ResponseEntity<TrackingInformation>(trackingInformation, HttpStatus.OK);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-            }
-        } catch (Exception exp) {
-            log.error("Request Parameters: trackingId: "+trackingId+" Message: " +  exp.getMessage());
-            //ToDo Sprint 5: Return Error
+            log.info("Completed: trackParcel with trackingId " + trackingId + " was successfully executed, HttpStatus.OK");
+            TrackingInformation trackingInformation = ParcelMapper.INSTANCE.entityToTrackingInformationDto(result.get());
+            return new ResponseEntity<TrackingInformation>(trackingInformation, HttpStatus.OK);
+
+        } catch (BLDataNotFoundException exp) {
+            log.error("Parcel with trackingid "+trackingId+" could not be found, errormessage: " +  exp.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -130,18 +107,12 @@ public class ParcelApiController implements ParcelApi {
             var parcelEntity = mapRegisterNewParcel(parcel, trackingId);
             var result = service.transitionParcel(parcelEntity);
 
-            if (result.isPresent()) {
-                log.info("Completed: transitionParcel with trackingId " + trackingId + " and parcel " + parcel.toString() + " was successfully executed, HttpStatus.OK");
-                var newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result.get());
-                return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
-            } else {
-                //ToDo Sprint 5: Exception Handling/Error Handling
-                log.warn("Unexpected behavior occured: Result not present but no exception was thrown");
-                throw new Exception("Unknown Error");
-            }
-        } catch (Exception exp) {
-            log.error("Request Parameters: trackingId: "+trackingId+ " parcel: "+parcel.toString()+" Message: " +  exp.getMessage());
-            //ToDo Sprint 5: Return Error
+            log.info("Completed: transitionParcel with trackingId " + trackingId + " and parcel " + parcel.toString() + " was successfully executed, HttpStatus.OK");
+            var newParcelInfo = ParcelMapper.INSTANCE.entityToNewParcelInfoDto(result.get());
+            return new ResponseEntity<NewParcelInfo>(newParcelInfo, HttpStatus.OK);
+
+        } catch (BLValidationException exp) {
+            log.info("Parcel with parcel " + parcel + " could not be transitioned because validation failed with errormessage " + exp);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
