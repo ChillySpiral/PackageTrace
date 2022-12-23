@@ -1,8 +1,8 @@
-package at.fhtw.swen3.services.gps.service.impl;
+package at.fhtw.swen3.gps.service.impl;
 
+import at.fhtw.swen3.gps.service.GeoEncodingCallService;
+import at.fhtw.swen3.gps.service.GeoEncodingService;
 import at.fhtw.swen3.persistence.entities.GeoCoordinateEntity;
-import at.fhtw.swen3.services.gps.service.GeoEncodingCallService;
-import at.fhtw.swen3.services.gps.service.GeoEncodingService;
 import lombok.extern.slf4j.Slf4j;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;

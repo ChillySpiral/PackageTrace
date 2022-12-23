@@ -1,5 +1,6 @@
-package at.fhtw.swen3.services.gps.service.impl;
+package at.fhtw.swen3.gps.service.impl;
 
+import at.fhtw.swen3.gps.service.impl.OMSEncodingProxy;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
